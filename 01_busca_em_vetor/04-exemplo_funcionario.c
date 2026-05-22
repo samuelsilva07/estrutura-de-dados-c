@@ -14,11 +14,10 @@ FUNCIONARIO* busca(int inicio, int qtd_funcionarios, FUNCIONARIO* vetor_funciona
         - no arquivo de exemplo, os funcionarios estão ordenados por ordem alfabética 
         - por isso, utilizei a busca binária para encontrar o funcionário de forma mais eficiente
     */
-    int fim = qtd_funcionarios;
-    int meio;
-    while (inicio < meio) {
+    int fim = qtd_funcionarios - 1;
+    int meio = 0;
+    do {
         meio = (inicio + fim) / 2;
-
         int comparador = strcmp(nome, vetor_funcionarios[meio].nome);
         if (comparador > 0) {
             inicio = meio;
@@ -27,7 +26,7 @@ FUNCIONARIO* busca(int inicio, int qtd_funcionarios, FUNCIONARIO* vetor_funciona
         } if (comparador == 0) {            
             return &vetor_funcionarios[meio];
         }
-    }
+    } while(inicio <= meio);
 
     return NULL;
 }
@@ -57,6 +56,13 @@ int main() {
             fclose(arquivo);
             return 1;
         }
+    }
+
+    for (int i = 0; i < 10; i++) {
+        printf("\n\nFuncionario %d", i);
+        printf("\nNome: %s", funcionarios[i].nome);
+        printf("\nValor-hora: %.2f",funcionarios[i].valor_hora);
+        printf("\nHora-mes: %d",funcionarios[i].horas_mes);
     }
 
     char nome[81];

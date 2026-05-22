@@ -16,8 +16,8 @@ int buscaBinaria(int n, int* vet, int tam) {
         obs: recomendado para listas ORDENADAS!
     */
     int meio, inicio = 0, fim = tam;
-    while (inicio <= meio) {
-        meio = (int) (inicio + fim) / 2;
+    while (inicio < meio) {
+        meio = (inicio + fim) / 2;
         if (n > vet[meio]) inicio = meio;   // início do subvetor à direita é o elemento central
         else if (n < vet[meio]) fim = meio; // fim do subvetor à esquerda é o elemento central
         else return meio;
