@@ -38,7 +38,7 @@ float** transposta(int linhas, int colunas, float m1[][colunas], float** m2) {
 float** alocaMatriz(int linhas, int colunas) {
     float** matriz = (float**) malloc(linhas * sizeof(float*));
     if (matriz == NULL) {
-        printf("Nao foi possivel alocar memoria!\n");
+        printf("\nNao foi possivel alocar memoria para a matriz\n");
         exit(EXIT_FAILURE);
     }
     for (int i = 0; i < colunas; i++) 

@@ -3,8 +3,7 @@
 
 typedef struct lista {
     int valor;
-    struct lista* prox; 
-    // ponteiro para o próximo elemento
+    struct lista* prox; // ponteiro para o próximo elemento
 } LISTA;
 
 LISTA* criaLista (void) {

@@ -29,7 +29,10 @@ int** copiaMatriz(int linhas, int colunas, int* m1[][colunas], int** m2) {
 int** alocaMatriz(int linhas, int colunas) {
     int** matrizAlocada = (int**) malloc(linhas*sizeof(int*));
     // matrizAlocada = ponteiro para vetor
-    if(matrizAlocada == NULL) exit(1);
+    if (matrizAlocada == NULL) {
+        printf("\nNao foi possivel alocar memoria para a matriz\n");
+        exit(EXIT_FAILURE);
+    }
 
     for (int i = 0; i < linhas; i++) {
         matrizAlocada[i] = (int*) malloc(colunas*sizeof(int));

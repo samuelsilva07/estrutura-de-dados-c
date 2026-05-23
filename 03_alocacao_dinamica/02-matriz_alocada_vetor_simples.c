@@ -9,6 +9,10 @@ void imprimeMatriz(int tam, int *matriz) {
 int* alocaMatriz(int linhas, int colunas, int matriz[linhas][colunas]) {
     int* matrizAlocada = (int*) malloc(linhas*colunas*sizeof(int));
     // matrizAlocada = vetor unidimensional (tam = lin * col)
+    if (matrizAlocada == NULL) {
+        printf("\nNao foi possivel alocar memoria para a matriz\n");
+        exit(EXIT_FAILURE);
+    }
     int k = 0;
     for (int i = 0; i < linhas; i++) {
         for (int j = 0; j < colunas; j++)
