@@ -1,3 +1,4 @@
 *.exe
-output/*
-00-base.c
+output/
+02_algoritmos_ordenacao/00-base.c
+.vscode/
