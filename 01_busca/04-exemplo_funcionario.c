@@ -58,12 +58,15 @@ int main() {
         }
     }
 
+    /* Este bloco imprime os 10 primeiros funcionários no arquivo
+
     for (int i = 0; i < 10; i++) {
         printf("\n\nFuncionario %d", i);
         printf("\nNome: %s", funcionarios[i].nome);
         printf("\nValor-hora: %.2f",funcionarios[i].valor_hora);
         printf("\nHora-mes: %d",funcionarios[i].horas_mes);
     }
+    */
 
     char nome[81];
     printf("\nDigite o nome do funcionario para a busca: "); // verifique o arquivo de funcionários para realizar os testes!
