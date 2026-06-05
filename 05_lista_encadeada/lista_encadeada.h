@@ -6,7 +6,10 @@
 typedef struct lista LISTA;
 
 void listaLibera(LISTA* lista);
-LISTA* listaPesquisa(LISTA* lista, int num);
+void listaImprimeCiclo(LISTA* lista);
+int listaVerificaCiclo(LISTA* lista);
+LISTA* listaCriarCiclo(LISTA* lista);
+int listaPesquisa(LISTA* lista, int num);
 LISTA* listaRemove(LISTA* lista, int num);
 void listaImprime(LISTA* lista);
 LISTA* listaInsereOrdenado(LISTA* lista, int num);
