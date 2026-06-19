@@ -8,8 +8,8 @@ void pilhaLibera(PILHA* p);
 int pilhaVazia(PILHA* p);
 ELEMENTO* pilhaTopo(PILHA* p);
 void pilhaImprime(PILHA* p);
-int pop(PILHA* p);
-void push(PILHA* p, int n);
+int pilhaPop(PILHA* p);
+void pilhaPush(PILHA* p, int n);
 PILHA* pilhaCria();
 
 #endif

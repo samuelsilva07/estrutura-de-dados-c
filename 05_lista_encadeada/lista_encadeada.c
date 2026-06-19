@@ -50,32 +50,31 @@ LISTA* listaCriarCiclo(LISTA* lista) {     // Forma um ciclo na lista encadeada
 }
 
 int listaPesquisa(LISTA* lista, int num) {   // Realiza uma busca linear na lista encadeada por um elemento n e retorna 1 caso o elemento seja encontrado
-    LISTA* p;
-    for (p = lista; p != NULL; p = p->prox)
+    for (LISTA* p = lista; p != NULL; p = p->prox)
         if (p->valor == num) return 1;
     return 0;
 }
 
 LISTA* listaRemove(LISTA* lista, int n) { // Remove um elemento de valor n da lista encadeada
-    LISTA* ant = NULL; // variável para o elemento anterior (inicia com NULL)
-    LISTA* aux = lista; // variável para o elemento atual (inicia com o 1º da lista)
+    LISTA* anterior = NULL; // variável para o elemento anterior (inicia com NULL)
+    LISTA* removido = lista; // variável para o elemento atual (inicia com o 1º da lista)
 
-    while(aux != NULL && aux->valor != n) {
-        ant = aux;
-        aux = aux->prox;
+    while(removido != NULL && removido->valor != n) {
+        ant = removido;
+        removido = removido->prox;
     }
 
     // se o elemento não for encontrado, retorna a lista original
-    if (aux == NULL) return lista;
+    if (removido == NULL) return lista;
 
     // se o elemento estiver no início da lista (anterior == NULL):
-    if (ant == NULL) lista = aux->prox;
+    if (anterior == NULL) lista = removido->prox;
 
     // se o elemento estiver no meio da lista:
-    else ant->prox = aux->prox;
+    else anterior->prox = removido->prox;
     
     // remove o elemento e retorna a lista modificada
-    free(aux);
+    free(removido);
     return lista;
 } 
 

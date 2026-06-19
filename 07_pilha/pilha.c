@@ -47,13 +47,13 @@ void pilhaImprime(PILHA* pilha) {   // Imprime a pilha na sequência correta
 }
 
 int pilhaPop(PILHA* pilha) {    // Retira o elemento do topo da pilha
-    ELEMENTO* temp = (ELEMENTO*) malloc(sizeof(ELEMENTO));
+    ELEMENTO* elemento_removido = (ELEMENTO*) malloc(sizeof(ELEMENTO));
     int valor;
-    temp = pilha->topo;         // variável temp recebe o elemento do topo
-    valor = temp->info;         // valor recebe o dado de retorno
+    elemento_removido = pilhaTopo(pilha);    // variável elemento_removido recebe o elemento do topo da pilha
+    valor = elemento_removido->info;         // valor recebe o dado de retorno
 
-    pilha->topo = temp->prox;   // topo da pilha é reajustado 
-    free(temp);
+    pilha->topo = elemento_removido->prox;   // topo da pilha é reajustado 
+    free(elemento_removido);
     return valor;       // função retorna o valor do elemento removido
 }
 
@@ -67,5 +67,5 @@ void pilhaPush(PILHA* pilha, int n) {   // Adiciona um elemento ao topo da pilha
 PILHA* pilhaCria() {    // Cria uma pilha vazia
     PILHA* p = (PILHA*) malloc(sizeof(PILHA));
     p->topo = NULL;     // topo da pilha inicia com NULL
-        return p;
+    return p;
 }
