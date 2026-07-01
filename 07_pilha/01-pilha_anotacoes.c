@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "pilha.c"
 
-/* Pilha - LIFO (Last In, First Out)!!! */
-
 int main () {
     PILHA* p = pilhaCria();
     int valor_adicionado;

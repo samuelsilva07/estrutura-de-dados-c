@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include "pilha.h"
 
-// biblioteca com as funções para a manutenção de pilhas
+// biblioteca com as funções para a manutenção de pilhas 
+// LIFO (Last In, First Out)
 
 typedef struct elemento {
     int info;
@@ -27,7 +28,7 @@ int pilhaVazia(PILHA* p) {
 }
 
 ELEMENTO* pilhaTopo(PILHA* p) {     // Retorna o elemento que está no topo da pilha
-    if (p->topo == NULL) return NULL;
+    if (pilhaVazia(p)) return NULL;
     return p->topo;
 }
 

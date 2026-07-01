@@ -1,75 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "fila.c"
 
-typedef struct elemento {
-    int info;
-    struct elemento* prox;
-} ELEMENTO;
-
-typedef struct fila {
-    ELEMENTO* inicio;
-    ELEMENTO* fim;
-} FILA;
-
-void liberaFila(FILA* fila) {
-    ELEMENTO* e = fila->inicio;
-    while(e != NULL) {
-        ELEMENTO* aux = e->prox;
-        free(e);
-        e = aux;
-    }
-    free(fila);
-    printf("Fila liberada!\n");
-}
-
-void imprimeFila(FILA* fila) {
-    ELEMENTO* e = (ELEMENTO*) malloc(sizeof(ELEMENTO));
-    for (e = fila->inicio; e != NULL; e = e->prox)
-        printf("%d ", e->info);
-    printf("\n");
-}
-
-int removeElementoFila(FILA* fila) {
-    ELEMENTO* temp = fila->inicio;
-    int valor = temp->info;
-    fila->inicio = temp->prox;
-    if (fila->inicio == NULL) fila->fim = NULL;  // caso da fila vazia
-    free(temp);
-    return valor;
-}
-
-void insereElementoFila(FILA* fila, int n) {
-    // fila = ORDEM INVERSA!!
-    ELEMENTO* e = (ELEMENTO*) malloc(sizeof(ELEMENTO));
-    e->info = n;
-    e->prox = NULL;  // adiciona o elemento antes do inicio
-
-    if (fila->inicio != NULL) {
-        fila->fim->prox = e;
-    }
-    // se a fila estiver vazia, o elemento é o início e o fim da fila
-    else fila->inicio = e;
-
-    fila->fim = e;
-}
-
-FILA* criaFila() {
-    FILA* f = (FILA*) malloc(sizeof(FILA));
-    f->inicio = f->fim = NULL;   
-    // inicio e fim da fila inicializados com NULL
-    return f;
-}
-
-/* Fila - FIFO (First In, First Out)!!! */
+/* Fila  */
 
 int main () {
-    FILA* f = criaFila();
-    insereElementoFila(f, 2);
-    insereElementoFila(f, 3);
-    insereElementoFila(f, 4);
-    imprimeFila(f);
-    int valor = removeElementoFila(f);
-    imprimeFila(f);
-    liberaFila(f);
+    system("cls");
+    FILA* fila = filaCria();
+    printf("Uma nova fila foi criada!\n");
+    int valor_adicionado;
+    while(1) {
+        printf("Digite um numero para adicionar a fila: ");
+        scanf("%d", &valor_adicionado);
+        if (valor_adicionado == 0) break;
+        filaInsere(fila, valor_adicionado);
+    }
+    
+    printf("\nFila atual: ");
+    filaImprime(fila);
+    
+    int valor_removido = filaRemove(fila);
+    printf("\nValor removido: %d\n", valor_removido);
+    printf("Fila atual: ");
+    filaImprime(fila);
+
+    filaLibera(fila);
+    printf("\nMemoria liberada!\n");
     exit(EXIT_SUCCESS);
 }

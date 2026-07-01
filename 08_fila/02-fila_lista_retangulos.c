@@ -27,8 +27,12 @@ void filaLibera(FILA* filaRet) {
         free(aux);
         aux = temp;
     }
-    printf("Fim do programa.\n");
+    printf("Memoria liberada!\n");
     free(filaRet);
+}
+
+float perimetroRetangulo(float base, float altura) {
+    return (2 * base) + (2 * altura);
 }
 
 float areaRetangulo(float base, float altura) {
@@ -42,6 +46,7 @@ void filaImprime(FILA* filaRet) {
         printf("\nRetangulo %d:\n", i);
         printf(" -Base = %.2fm\n", aux->base);    
         printf(" -Altura = %.2fm\n", aux->altura);
+        printf(" -Perimetro = %.2fm\n", perimetroRetangulo(aux->base, aux->altura)); 
         printf(" -Area = %.2fm2\n", areaRetangulo(aux->base, aux->altura)); 
         i++;  
     }
@@ -65,7 +70,8 @@ FILA* filaCria() {
     return aux;
 }
 
-int main (void) {
+int main () {
+    system("cls");
     int quantidade;
     float base, altura;
     printf("Digite a quantidade de retangulos para adicionar a fila: ");
@@ -79,5 +85,6 @@ int main (void) {
     }
     filaImprime(filaRet);
     filaLibera(filaRet);
+    printf("Fim do programa.\n");
     return 0;
 }
