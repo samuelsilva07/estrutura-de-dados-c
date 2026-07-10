@@ -40,10 +40,10 @@ int main () {
                     atendidos++;
                 }
             } else {
-                printf("Caractere invalido, tente novamente.\n");
+                printf("Operacao invalida, tente novamente.\n");
             }
         }
-        
+
         printf("\n");
         if (inseridos) {
             printf("Clientes inseridos = %d\n", inseridos);

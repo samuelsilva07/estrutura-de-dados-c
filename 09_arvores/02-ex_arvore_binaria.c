@@ -7,11 +7,14 @@ int main () {
     a = arvCriaNo('a', arvCriaVazia(), arvCriaVazia());
     arvImprime(a);
     printf("\n");
+
     a->esq = arvCriaNo('b', arvCriaNo('d', arvCriaVazia(), arvCriaVazia()), arvCriaNo('e', arvCriaVazia(),arvCriaVazia()));
     a->dir = arvCriaNo('c', arvCriaVazia(), arvCriaVazia());
     arvImprime(a);
     printf("\n");
-    a->dir->esq = arvCriaNo('f', arvCriaNo('g', arvCriaVazia(), arvCriaVazia()), arvCriaNo('h',arvCriaVazia(),arvCriaVazia())); 
+
+    a->dir->esq = arvCriaNo('f', arvCriaNo('g', arvCriaVazia(), arvCriaVazia()), arvCriaNo('h',arvCriaVazia(),arvCriaVazia()));
+    
     arvImprime(a);
     printf("\n");
     printf("Altura da arvore = %d\n", arvAltura(a));

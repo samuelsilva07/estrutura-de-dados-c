@@ -2,53 +2,47 @@
 #include <stdlib.h>
 #include "arvore.h"
 
-/* Esta biblioteca contém as funções para a manipulação de:
-    - Árvores binárias simples (arv) 
-    - Arvores binarias de busca (abb)
+// Esta biblioteca contém as funções para a manipulação de árvores binárias simples 
 
-   obs: todas as funções de árvores binarias simples podem ser utilizadas em arvores binárias de busca 
-   (exceto arvImprime(), visto que a ordem de impressão dos dois tipos de árvore é distinta)
-*/
-
-typedef struct arv {
+struct arv {
     char info;
     struct arv* esq;
     struct arv* dir;
 };
 
-ARV* arvLibera(ARV* arvore) {
-    if (arvore != NULL) {
+ARV* arvLibera(ARV* arvore) {   // Libera a memória alocada para a árvore 
+    if (!arvVazia(arvore)) {
+        // recursão para liberar os ramos
         arvLibera(arvore->esq);
-        arvLibera(arvore->esq);
+        arvLibera(arvore->dir);
         free(arvore);
     }
     return NULL;
 }
 
-int maiorSubArvore(int n1, int n2) {
-    if (n1 > n2) return n1;
-    else return n2;
+int maiorSubArvore(int n1, int n2) {  // retorna o maior valor entre as alturas das subárvores
+    return (n1 > n2) ? n1 : n2;
 }
 
-int arvAltura(ARV* arv) {
-    if (arv == NULL) return -1; // árvore vazia = retorna -1
-
-    /* se não, retorna o maior valor entre:
-        -> 1 + altura da filha (prim)
-        -> altura da irmâ (prox) */
-    else {
-        return maiorSubArvore(1 + arvAltura(arv->esq), arvAltura(arv->dir));
-    }
+int arvAltura(ARV* arvore) {    // Retorna a altura da árvore
+    if (arvVazia(arvore)) return 0; // árvore vazia = retorna 0
+    return 1 + maiorSubArvore(arvAltura(arvore->esq), arvAltura(arvore->dir));
+    
 }
 
-int arvPertence(char valor, ARV* arvore) {
-    if (arvore == NULL) return 0;
-    else return arvore->info == valor || arvPertence(valor, arvore->esq) || arvPertence(valor, arvore->esq);
+int arvPertence(char valor, ARV* arvore) {  // Verifica se um valor está na árvore  
+    // retorna valores BOOLEANOS (pertence ou não pertence)
+    if (arvVazia(arvore)) return 0;
+    else return arvore->info == valor || arvPertence(valor, arvore->esq) || arvPertence(valor, arvore->dir);
+    // recursão para verificação nos ramos 
 }
 
-void arvImprime(ARV* arvore) {
-    // impressão em PRÉ-ORDEM (raiz -> sae -> sad)
-    if(arvore != NULL) {
+int arvVazia(ARV* arvore) {  // Retorna 1 se a árvore está vazia e 0 caso contrário  
+    return arvore == NULL;
+}
+
+void arvImprime(ARV* arvore) { // Imprime os valores da árvore em pré-ordem (raiz -> sae -> sad)
+    if(!arvVazia(arvore)) {
         printf("<");
         printf("%c ", arvore->info);
         arvImprime(arvore->esq);
@@ -57,75 +51,14 @@ void arvImprime(ARV* arvore) {
     }
 }
 
-ARV* arvCriaNo(char valor, ARV* arvEsq, ARV* arvDir) {
+ARV* arvCriaNo(char valor, ARV* arv_esq, ARV* arv_dir) {   // cria um nó da árvore com o seu respectivo valor
     ARV* p = (ARV*) malloc(sizeof(ARV));
     p->info = valor;
-    p->esq = arvEsq;
-    p->dir = arvDir;
+    p->esq = arv_esq;
+    p->dir = arv_dir;
     return p;
 }
 
-ARV* arvCriaVazia() {
+ARV* arvCriaVazia() {   // cria uma árvore vazia
     return NULL;
-}
-
-// funções para ABB
-
-ARV* abbPesquisa(int valor, ARV* arvore) {
-    if (arvore != NULL) {
-        if (valor < arvore->info) return abbPesquisa(valor, arvore->esq);
-        else if (valor > arvore->info) return abbPesquisa(valor, arvore->dir);
-        else return arvore;
-    }
-    return NULL;
-}
-
-void abbImprime(ARV* arvore) {
-    // Impressão em ordem SIMÉTRICA (sae -> raiz -> sad)
-    if(arvore != NULL) {
-        abbImprime(arvore->esq);
-        printf("<");
-        printf("%c ", arvore->info);
-        abbImprime(arvore->dir);
-        printf(">");
-    }
-}
-
-ARV* abbRemove(int valor, ARV* arvore) {
-    if (arvore == NULL) return NULL;
-    else if (valor > arvore->info) return abbRemove(valor, arvore->dir);
-    else if (valor < arvore->info) return abbRemove(valor, arvore->esq);
-    else {
-        if (arvore->esq == NULL && arvore->dir == NULL) {
-            free(arvore);
-            arvore = NULL;
-        }
-        else if (arvore->esq == NULL) {
-            ARV* aux = arvore;
-            aux = aux->dir;             
-            free(arvore);
-        }
-        else if (arvore->dir == NULL) {
-            ARV* aux = arvore;
-            aux = aux->esq;
-            free(arvore);
-        }
-        else {
-            ARV* aux = arvore->esq; 
-            while (aux->dir != NULL) aux = aux-> dir; 
-            arvore->info = aux->info; 
-            aux->info = valor; 
-            arvore->esq = abbRemove(valor, arvore->esq); 
-        }
-    }
-    return arvore; 
-}
-
-ARV* abbInsere(int valor, ARV* arvore) {
-    if (arvore != NULL) {
-        if (arvore->info > valor) arvore->dir = abbInsere(valor, arvore->dir);
-        else if (arvore->info < valor) arvore->esq = abbInsere(valor, arvore->esq);
-    }
-    ARV* aux = arvCriaNo(valor, NULL, NULL); 
-    return aux;
 }

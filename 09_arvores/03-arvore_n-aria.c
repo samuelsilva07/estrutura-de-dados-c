@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// esta implementação simula o comportamento de um grafo
+
 typedef struct arvvar {
     char info;
     struct arvvar* prim; // primeiro filho (sub-árvore "esquerda")

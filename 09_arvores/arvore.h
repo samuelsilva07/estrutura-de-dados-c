@@ -1,14 +1,15 @@
+#ifndef ARVORE_H
+#define ARVORE_H
+
 typedef struct arv ARV;
 
 ARV* arvLibera(ARV* arvore);
 int maiorSubArvore(int n1, int n2);
 int arvAltura(ARV* arv);
 int arvPertence(char valor, ARV* arvore);
+int arvVazia(ARV* arvore);
 void arvImprime(ARV* arvore);
-ARV* arvCriaNo(char valor, ARV* arvEsq, ARV* arvDir);
+ARV* arvCriaNo(char valor, ARV* arv_esq, ARV* arv_dir);
 ARV* arvCriaVazia();
 
-ARV* abbPesquisa(int valor, ARV* arvore);
-void abbImprime(ARV* arvore);
-ARV* abbRemove(int valor, ARV* arvore);
-ARV* abbInsere(int valor, ARV* arvore);
+#endif
