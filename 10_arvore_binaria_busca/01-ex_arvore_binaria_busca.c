@@ -15,14 +15,14 @@ int main () {
         scanf("%d", &valor);
         
         if (valor == 0) break;
-        arvore = abbInsere(valor, arvore);
+        arvore = abbInsere(arvore, valor);
     }
     printf("\nArvore: ");
     abbImprime(arvore);
     
     printf("\nDigite um valor para remover da arvore: ");
     scanf("%d", &valor);
-    arvore = abbRemove(valor, arvore);
+    arvore = abbRemove(arvore, valor);
 
     printf("\nArvore final: ");
     abbImprime(arvore);

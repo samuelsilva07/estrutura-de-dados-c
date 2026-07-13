@@ -28,10 +28,10 @@ int abbAltura(ABB* arvore) {  // Retorna a altura da árvore
     
 }
 
-ABB* abbPesquisa(int valor, ABB* arvore) { // Verifica se um valor está na árvore binária de busca
+ABB* abbPesquisa(ABB* arvore, int valor) { // Verifica se um valor está na árvore binária de busca
     if (!abbVazia(arvore)) {
-        if (valor < arvore->valor) return abbPesquisa(valor, arvore->esq);
-        else if (valor > arvore->valor) return abbPesquisa(valor, arvore->dir);
+        if (valor < arvore->valor) return abbPesquisa(arvore->esq, valor);
+        else if (valor > arvore->valor) return abbPesquisa(arvore->dir, valor);
         else return arvore;
     }
     return NULL;
@@ -51,10 +51,10 @@ void abbImprime(ABB* arvore) { // Imprime os valores da árvore binária de busc
     }
 }
 
-ABB* abbRemove(int valor, ABB* arvore) {  // Remove um elemento da árvore binária de busca
+ABB* abbRemove(ABB* arvore, int valor) {  // Remove um elemento da árvore binária de busca
     if (abbVazia(arvore)) return NULL;
-    else if (valor > arvore->valor) arvore->dir = abbRemove(valor, arvore->dir);
-    else if (valor < arvore->valor) arvore->esq = abbRemove(valor, arvore->esq);
+    else if (valor > arvore->valor) arvore->dir = abbRemove(arvore->dir, valor);
+    else if (valor < arvore->valor) arvore->esq = abbRemove(arvore->esq, valor);
     else if (valor == arvore->valor) {
         // árvore sem sub-árvores: libera o nó e substitui por NULL
         if (abbVazia(arvore->esq) && abbVazia(arvore->dir)) {
@@ -80,24 +80,24 @@ ABB* abbRemove(int valor, ABB* arvore) {  // Remove um elemento da árvore biná
             while (aux->dir != NULL) aux = aux-> dir; // percorre até o elemento mais à direita da sub-árvore
             arvore->valor = aux->valor; // troca as informações dos nós
             aux->valor = valor; // adiciona o valor a ser removido no nó que será removido
-            arvore->esq = abbRemove(valor, arvore->esq); // remove o nó recursivamente, partindo da sub-árvore da esquerda
+            arvore->esq = abbRemove(arvore->esq, valor); // remove o nó recursivamente, partindo da sub-árvore da esquerda
         }
     }
 
     return arvore; // retorna a árvore após as alterações
 }
 
-ABB* abbInsere(int valor, ABB* arvore) {    // Insere um elemento na árvore binária de busca, na posição correta.
+ABB* abbInsere(ABB* arvore, int valor) {    // Insere um elemento na árvore binária de busca, na posição correta.
     // busca nó vazio (na posição correta na árvore), depois o cria e insere na árvore (ou sub-árvore)
     if (abbVazia(arvore)) {
         return abbCriaNo(valor);
     }
 
     // se o valor for menor, insere na sub-árvore da esquerda
-    if (valor < arvore->valor)  arvore->esq = abbInsere(valor, arvore->esq);
+    else if (valor < arvore->valor)  arvore->esq = abbInsere(arvore->esq, valor);
 
-    // se for maior ou igual, insere na sub-árvore da direita
-    else if (valor < arvore->valor) arvore->dir = abbInsere(valor, arvore->dir);
+    // se for maior, insere na sub-árvore da direita
+    else if (valor > arvore->valor) arvore->dir = abbInsere(arvore->dir, valor);
 
     // caso ele seja igual, apresenta uma mensagem de erro - as ABBs não aceitam elementos duplicados
     else printf("Este valor ja esta na arvore.\n");
