@@ -1,6 +1,6 @@
 # Estrutura de Dados em C
 ## Seja bem vindo! 💡
-Este repositório contém todo os códigos que produzi durante meus estudos em Estruturas de Dados, baseado nas aulas ministradas no curso de Ciência da Computação da <abbr title="Universidade Federal Rural do Rio de Janeiro" style="text-decoration:none;">**UFRRJ**</abbr> e em meus estudos pessoais sobre o assunto 📕
+Este repositório contém todos os códigos que produzi durante meus estudos em Estruturas de Dados, baseado nas aulas ministradas no curso de Ciência da Computação da <abbr title="Universidade Federal Rural do Rio de Janeiro" style="text-decoration:none;">**UFRRJ**</abbr> e em meus estudos pessoais sobre o assunto 📕
 
 Durante esse período, tive contato com vários algoritmos e conceitos fundamentais da área, entre eles:
 
