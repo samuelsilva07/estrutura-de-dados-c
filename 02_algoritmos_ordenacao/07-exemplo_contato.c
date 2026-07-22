@@ -57,14 +57,7 @@ void ordena(int quantidade_contatos, Contato** vetor_contatos) {
     }
 } 
 
-void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
-    ordena(100, vetor_contatos);
-    FILE* novo_arquivo = fopen("../contatos_ordenados.txt", "wt");
-    if (!novo_arquivo) {
-        printf("Erro na leitura do arquivo.\n");
-        exit(EXIT_FAILURE);
-    }
-    
+void gravarContatos(int quantidade_contatos, Contato** vetor_contatos) {
     for (int i = 0; i < quantidade_contatos; i++) 
         fprintf(novo_arquivo, "%s %s %d %d %d\n", 
             vetor_contatos[i]->nome, 
@@ -73,6 +66,17 @@ void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
             vetor_contatos[i]->mes, 
             vetor_contatos[i]->ano
         );
+}
+
+void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
+    ordena(100, vetor_contatos);
+    FILE* novo_arquivo = fopen("../contatos_ordenados.txt", "wt");
+    if (!novo_arquivo) {
+        printf("Erro na leitura do arquivo.\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    gravarContatos(quantidade_contatos, vetor_contatos);
     fclose(novo_arquivo);
 }
 
