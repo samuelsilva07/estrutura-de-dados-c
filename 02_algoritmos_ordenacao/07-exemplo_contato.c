@@ -57,17 +57,6 @@ void ordena(int quantidade_contatos, Contato** vetor_contatos) {
     }
 } 
 
-void gravarContatos(int quantidade_contatos, Contato** vetor_contatos) {
-    for (int i = 0; i < quantidade_contatos; i++) 
-        fprintf(novo_arquivo, "%s %s %d %d %d\n", 
-            vetor_contatos[i]->nome, 
-            vetor_contatos[i]->telefone, 
-            vetor_contatos[i]->dia, 
-            vetor_contatos[i]->mes, 
-            vetor_contatos[i]->ano
-        );
-}
-
 void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
     ordena(100, vetor_contatos);
     FILE* novo_arquivo = fopen("../contatos_ordenados.txt", "wt");
@@ -76,7 +65,14 @@ void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
         exit(EXIT_FAILURE);
     }
     
-    gravarContatos(quantidade_contatos, vetor_contatos);
+    for (int i = 0; i < quantidade_contatos; i++) 
+        fprintf(novo_arquivo, "%s %s %d %d %d\n", 
+            vetor_contatos[i]->nome, 
+            vetor_contatos[i]->telefone, 
+            vetor_contatos[i]->dia, 
+            vetor_contatos[i]->mes, 
+            vetor_contatos[i]->ano
+        );
     fclose(novo_arquivo);
 }
 
