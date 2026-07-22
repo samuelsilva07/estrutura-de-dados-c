@@ -12,6 +12,16 @@ typedef struct contato {
     char telefone[21];
 } Contato;
 
+FILE* abrirArquivo(char* nome_arquivo, char* modo) {
+    FILE* arquivo = fopen(nome_arquivo, modo);
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return arquivo;
+}
+
 void liberarVetor(int quantidade_contatos, Contato** vetor_contatos) {
     for (int i = 0; i < quantidade_contatos; i++) 
         free(vetor_contatos[i]);
@@ -57,22 +67,21 @@ void ordena(int quantidade_contatos, Contato** vetor_contatos) {
     }
 } 
 
-void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
-    ordena(100, vetor_contatos);
-    FILE* novo_arquivo = fopen("../contatos_ordenados.txt", "wt");
-    if (!novo_arquivo) {
-        printf("Erro na leitura do arquivo.\n");
-        exit(EXIT_FAILURE);
-    }
-    
+void gravarContatos(FILE* arquivo, int quantidade_contatos, Contato** vetor_contatos) {
     for (int i = 0; i < quantidade_contatos; i++) 
-        fprintf(novo_arquivo, "%s %s %d %d %d\n", 
+        fprintf(arquivo, "%s - %s - %d/%d/%d\n", 
             vetor_contatos[i]->nome, 
             vetor_contatos[i]->telefone, 
             vetor_contatos[i]->dia, 
             vetor_contatos[i]->mes, 
             vetor_contatos[i]->ano
-        );
+    );
+}
+
+void gerarArquivoOrdenado(int quantidade_contatos, Contato** vetor_contatos) {
+    ordena(100, vetor_contatos); 
+    FILE* novo_arquivo = abrirArquivo("../contatos_ordenados.txt", "wt");
+    gravarContatos(novo_arquivo, quantidade_contatos, vetor_contatos);
     fclose(novo_arquivo);
 }
 
@@ -87,11 +96,7 @@ void imprimirContato(Contato* contato) {
 }
 
 void carregarContatos(char* nomeArquivo, Contato** vetor_contatos, int quantidade_contatos) {
-    FILE* arquivo = fopen(nomeArquivo, "rt");
-    if (!arquivo) {
-        printf("Erro na leitura do arquivo.\n");
-        exit(EXIT_FAILURE);
-    }
+    FILE* arquivo = abrirArquivo(nomeArquivo, "rt");
     
     for (int i = 0; i < quantidade_contatos; i++) {
         if (fscanf(arquivo, "%80s %20s %d %d %d\n", 
@@ -106,7 +111,6 @@ void carregarContatos(char* nomeArquivo, Contato** vetor_contatos, int quantidad
             fclose(arquivo);
             exit(EXIT_FAILURE);
         }
-        // imprimirContato(vetor_contatos[i]);
     }
     
     fclose(arquivo);
