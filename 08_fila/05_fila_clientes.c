@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct cliente {
     char nome[50];
@@ -44,6 +45,7 @@ void printQueue(Fila* fila) {
         printCliente(cliente);
         i++;
     }
+    sleep(5);
 }
 
 void dequeue(Fila* fila) {
@@ -76,17 +78,29 @@ void enqueue(Fila* fila, char* nome, char* servico) {
     fila->fim = novo_cliente;
 }
 
+char* obterNomeServico(int valor) {
+    switch (valor) {
+        case 1: return "Abrir conta";            
+        case 2: return "Deposito";  
+        case 3: return "Saque";
+        default:
+            printf("Erro: tipo de servico invalido");
+            exit(EXIT_FAILURE);
+    }
+
+    return NULL;
+}
+
 void addCliente(Fila* fila) {
-    char nome[50], servico[50];
+    char nome[50];
+    int codigo_servico;
     printf("Digite o nome do cliente: ");
-    getchar();
-    // fgets(nome, 49, stdin);
     scanf("%s", nome);
     getchar();
-    printf("Informe o servico solicitado (deposito, saque ou abrir conta): ");
-    fgets(servico, 50, stdin);
-    enqueue(fila, nome, servico);
-    printf("Cliente adicionado com sucesso!\n");
+    printf("\n      SERVICOS      \n--------------------\n1 - Abrir conta\n2 - Deposito\n3 - Saque\n\nInforme o codigo do servico desejado: ");
+    scanf("%d", &codigo_servico);    
+    enqueue(fila, nome, obterNomeServico(codigo_servico));
+    printf("\nCliente adicionado com sucesso!\n");
 }
 
 Fila* criarFila() {
@@ -102,12 +116,17 @@ int realizarOperacao(int operacao, Fila* fila) {
             return 0;
         case 1: 
             addCliente(fila);
+            sleep(2);
+            system("cls");
             break;
         case 2: 
             dequeue(fila);
+            sleep(2);
+            system("cls");
             break;
         case 3: 
             printQueue(fila);
+            sleep(1.5);
             break;
         default: 
             printf("\nOperacao invalida, digite um numero entre 0 e 3.\n\n");
@@ -123,12 +142,13 @@ void menu() {
 
 int main() {
     Fila* fila_clientes = criarFila();
-    system("cls");
     int operacao;
+    system("cls");
     while (1) {
         menu();
         printf("Operacao: ");
         scanf("%d", &operacao);
+        system("cls");
         if (realizarOperacao(operacao, fila_clientes) == 0) {
             printf("\nFim do progama.\n");
             return 0;
