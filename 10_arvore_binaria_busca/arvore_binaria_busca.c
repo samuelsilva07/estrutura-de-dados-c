@@ -25,7 +25,6 @@ int maiorSubArvore(int n1, int n2) {
 int abbAltura(ABB* arvore) {  // Retorna a altura da árvore
     if (abbVazia(arvore)) return 0; // árvore vazia = retorna 0
     return 1 + maiorSubArvore(abbAltura(arvore->esq), abbAltura(arvore->dir));
-    
 }
 
 ABB* abbPesquisa(ABB* arvore, int valor) { // Verifica se um valor está na árvore binária de busca
