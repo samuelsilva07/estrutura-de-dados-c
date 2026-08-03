@@ -8,6 +8,12 @@ typedef struct funcionario {
     char nome[81];
 } FUNCIONARIO;
 
+void imprimirFuncionario(FUNCIONARIO* funcionario) {
+    printf("\nNome: %s", funcionario->nome);
+    printf("\nValor-hora: %.2f",funcionario->valor_hora);
+    printf("\nHora-mes: %d",funcionario->horas_mes);
+}
+
 FUNCIONARIO* busca(int inicio, int qtd_funcionarios, FUNCIONARIO* vetor_funcionarios, char* nome) {
     /* 
         - busca o funcionario com base no seu nome
@@ -21,78 +27,84 @@ FUNCIONARIO* busca(int inicio, int qtd_funcionarios, FUNCIONARIO* vetor_funciona
         int comparador = strcmp(nome, vetor_funcionarios[meio].nome);
         if (comparador > 0) {
             inicio = meio;
-        } if (comparador < 0) {
+        } else if (comparador < 0) {
             fim = meio;
-        } if (comparador == 0) {            
+        } else {            
             return &vetor_funcionarios[meio];
         }
-    } while(inicio <= meio);
+    } while (inicio <= meio);
 
     return NULL;
 }
 
-int main() {    
-    system("cls");
-    char* nome_arquivo = "../arquivo_funcionarios.txt";
-    FILE* arquivo = fopen(nome_arquivo, "rt");
+void buscarFuncionario(FUNCIONARIO* funcionarios, int qtd_funcionarios, char* nome) {
+    FUNCIONARIO* funcionario_encontrado = busca(0, qtd_funcionarios, funcionarios, nome); 
+    if (funcionario_encontrado == NULL) {
+        printf("O funcionario nao esta no arquivo.\n");
+        free(funcionarios);
+        exit(EXIT_FAILURE);
+    } 
+    printf("Funcionario encontrado!\n");
+    imprimirFuncionario(funcionario_encontrado);
+}
 
-    if (arquivo == NULL) {
-        printf("Nao foi possivel abrir o arquivo.\n");
-        return 0;
+char* informarNome() {
+    static char nome[41];
+    printf("Digite o nome do funcionario para a busca: "); // verifique o arquivo de funcionários para realizar os testes!
+    if (scanf("%40s", nome) != 1) {
+        printf("Entrada inválida.\n");
+        exit(EXIT_FAILURE);
     }
+    return nome;
+}
 
-    int qtd_funcionarios = 100;
-    FUNCIONARIO* funcionarios = malloc(qtd_funcionarios * sizeof(FUNCIONARIO));
-    if (funcionarios == NULL) {
-        printf("Nao foi possivel alocar memoria para o vetor.\n");
-        fclose(arquivo);
-        return 1;
-    }
-
+void lerArquivo(FILE* arquivo, FUNCIONARIO* funcionarios, int qtd_funcionarios) {
     for (int i = 0; i < qtd_funcionarios; i++) {
         if (fscanf(arquivo, "%80s %f %d\n", funcionarios[i].nome, &funcionarios[i].valor_hora, &funcionarios[i].horas_mes) != 3) {
             printf("Erro ao ler os dados do arquivo.\n");
             free(funcionarios);
             fclose(arquivo);
-            return 1;
+            exit(EXIT_FAILURE);
         }
     }
+}
 
-    /* Este bloco imprime os 10 primeiros funcionários no arquivo
-
-    for (int i = 0; i < 10; i++) {
-        printf("\n\nFuncionario %d", i);
-        printf("\nNome: %s", funcionarios[i].nome);
-        printf("\nValor-hora: %.2f",funcionarios[i].valor_hora);
-        printf("\nHora-mes: %d",funcionarios[i].horas_mes);
+FUNCIONARIO* gerarVetor(int qtd_funcionarios) {
+    FUNCIONARIO* vetor = malloc(qtd_funcionarios * sizeof(FUNCIONARIO));
+    if (vetor == NULL) {
+        printf("Nao foi possivel alocar memoria para o vetor.\n");
+        free(vetor);
+        exit(EXIT_FAILURE);
     }
-    */
+    return vetor;
+}
 
-    char nome[81];
-    printf("\nDigite o nome do funcionario para a busca: "); // verifique o arquivo de funcionários para realizar os testes!
-    if (scanf("%80s", nome) != 1) {
-        printf("Entrada inválida.\n");
-        free(funcionarios);
+FILE* abrirArquivo(char* nome_arquivo, char* modo) {
+    FILE* arquivo = fopen(nome_arquivo, modo);
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo.\n");
         fclose(arquivo);
-        return 1;
+        exit(EXIT_FAILURE);
     }
 
-    FUNCIONARIO* funcionario_encontrado = busca(0, qtd_funcionarios, funcionarios, nome);    
+    return arquivo;
+}
 
-    if (funcionario_encontrado == NULL) {
-        printf("O funcionario nao esta no arquivo.\n");
-        free(funcionarios);
-        fclose(arquivo);
-        return 0;
-    }
+int main() {    
+    system("cls");
+    FILE* arquivo = abrirArquivo("../arquivo_funcionarios.txt", "rt");
+    printf("Leitura do arquivo concluida!\n");
 
-    printf("Funcionario encontrado!\n");
-    printf("\nNome: %s", funcionario_encontrado->nome);
-    printf("\nValor-hora: %.2f",funcionario_encontrado->valor_hora);
-    printf("\nHora-mes: %d",funcionario_encontrado->horas_mes);
+    int qtd_funcionarios = 100;
+    FUNCIONARIO* funcionarios = gerarVetor(qtd_funcionarios);
+
+    lerArquivo(arquivo, funcionarios, qtd_funcionarios);
+
+    char* nome = informarNome();
+    buscarFuncionario(funcionarios, qtd_funcionarios, nome);    
 
     free(funcionarios);
     fclose(arquivo);
 
-    return 0;
+    exit(EXIT_SUCCESS);
 }
