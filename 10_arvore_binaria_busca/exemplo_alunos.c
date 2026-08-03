@@ -92,14 +92,15 @@ Arv* realizarOperacao(int operacao, Arv* alunos) {
             if (arvVazia(alunos)) {
                 printf("Nenhum aluno foi registrado.\n");
                 sleep(2);
-                system("cls");
             } else {
+                getchar();
                 printf("       ALUNOS DA TURMA       \n");
                 printf("-----------------------------\n");
                 visualizarAlunos(alunos);
-                printf("Pressione [ENTER] para continuar");
+                printf("\nPressione [ENTER] para continuar: ");
                 getchar();
             }
+            system("cls");
             break;
         default:
             printf("Valor invalido, digite um numero entre 0 e 2.\n");
