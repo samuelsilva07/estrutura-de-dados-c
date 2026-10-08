@@ -8,18 +8,18 @@ struct _array {
     int* vector;     // vetor de elementos do array
 };
 
-void freeArray(ARRAY* array) {
+void freeArray(Array* array) {
     free(array->vector);
     free(array);
 }
 
-int get(ARRAY* array, int value) { // retorna o índice do elemento procurado
+int get(Array* array, int value) { // retorna o índice do elemento procurado
     for (int i = 0; i < array->size; i++) 
         if (array->vector[i] == value) return i;
     return -1;
 }
 
-void showArray(ARRAY* array) {
+void showArray(Array* array) {
     printf("[");
     for (int i = 0; i < array->size; i++) {
         printf("%d, ", array->vector[i]);
@@ -27,7 +27,7 @@ void showArray(ARRAY* array) {
     printf("\b\b]\n");  // remove a vírgula do último elemento e fecha os colchetes
 }
 
-int del(ARRAY* array, int index) { // remove o elemento do vetor e retorna o seu valor
+int del(Array* array, int index) { // remove o elemento do vetor e retorna o seu valor
     if (array->total_size < 1) {
         printf("O array já está vazio!");
         return -1;
@@ -44,7 +44,7 @@ int del(ARRAY* array, int index) { // remove o elemento do vetor e retorna o seu
     return deleted;            // retorna o elemento removido
 }
 
-void append(ARRAY* array, int value) {  // adiciona um elemento no final do vetor
+void append(Array* array, int value) {  // adiciona um elemento no final do vetor
     if (array->size == array->total_size) {  // verifica se o array está cheio
         array->total_size *= 2;    // tamanho do vetor é dobrado
         array->vector = (int*) realloc(array->vector, array->total_size * sizeof(int));  // realloc para redimensionar o vetor
@@ -54,8 +54,8 @@ void append(ARRAY* array, int value) {  // adiciona um elemento no final do veto
     array->size++;
 }
 
-ARRAY* newArray() {  // retorna um ponteiro para o array inicial
-    ARRAY* array = (ARRAY*) malloc(sizeof(ARRAY));
+Array* newArray() {  // retorna um ponteiro para o array inicial
+    Array* array = (Array*) malloc(sizeof(Array));
     if (array == NULL) {
        printf("Nao foi possivel alocar memoria para o array.\n");
        return NULL; 

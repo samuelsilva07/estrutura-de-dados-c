@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct _array ARRAY;
+typedef struct _array Array;
 
-void freeArray(ARRAY* lista);
-int get(ARRAY* lista, int elemento);
-void showArray(ARRAY* lista);
-int del(ARRAY* lista, int posicao);
-void append(ARRAY* lista, int valor);
-ARRAY* newArray();
+void freeArray(Array* lista);
+int get(Array* lista, int elemento);
+void showArray(Array* lista);
+int del(Array* lista, int posicao);
+void append(Array* lista, int valor);
+Array* newArray();

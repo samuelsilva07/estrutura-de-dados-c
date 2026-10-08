@@ -2,7 +2,7 @@
 #include "array.c"
 
 int main() {
-    ARRAY* array = newArray();
+    Array* array = newArray();
     
     append(array, 2);
     showArray(array);
