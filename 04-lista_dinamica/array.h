@@ -3,9 +3,10 @@
 
 typedef struct _array Array;
 
-void freeArray(Array* lista);
-int get(Array* lista, int elemento);
-void showArray(Array* lista);
-int del(Array* lista, int posicao);
-void append(Array* lista, int valor);
+void freeArray(Array* list);
+int getIndex(Array* list, int value);
+int get(Array* list, int index);
+void showArray(Array* list);
+int delete(Array* list, int index);
+void append(Array* list, int value);
 Array* newArray();

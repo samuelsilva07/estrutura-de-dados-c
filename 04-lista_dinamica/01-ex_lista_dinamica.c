@@ -15,11 +15,12 @@ int main() {
     append(array, 8);
 
     showArray(array);
-    int indice_elemento = get(array, 9);
-    printf("Indice do elemento 9: %d\n", indice_elemento);
+    int elemento = get(array, 0);
+    printf("Valor de indice 0: %d\n", elemento);
 
-    int elemento_removido = del(array, 2);
-    printf("\nElemento %d removido!\n", elemento_removido);
+    int elemento_removido = delete(array, 2);
+    printf("\nO valor %d (indice 2) foi removido!\n", elemento_removido);
+    showArray(array);
 
     freeArray(array);
     return 0;

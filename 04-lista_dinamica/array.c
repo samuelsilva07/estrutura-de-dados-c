@@ -13,10 +13,15 @@ void freeArray(Array* array) {
     free(array);
 }
 
-int get(Array* array, int value) { // retorna o índice do elemento procurado
+
+int getIndex(Array* array, int value) { // retorna o índice do elemento procurado
     for (int i = 0; i < array->size; i++) 
-        if (array->vector[i] == value) return i;
+    if (array->vector[i] == value) return i;
     return -1;
+}
+
+int get(Array* array, int index) {
+    return array->vector[index];
 }
 
 void showArray(Array* array) {
@@ -27,7 +32,7 @@ void showArray(Array* array) {
     printf("\b\b]\n");  // remove a vírgula do último elemento e fecha os colchetes
 }
 
-int del(Array* array, int index) { // remove o elemento do vetor e retorna o seu valor
+int delete(Array* array, int index) { // remove o elemento do vetor e retorna o seu valor
     if (array->total_size < 1) {
         printf("O array já está vazio!");
         return -1;
@@ -35,8 +40,8 @@ int del(Array* array, int index) { // remove o elemento do vetor e retorna o seu
     int deleted = array->vector[index]; // pega o elemento removido
 
     // reposiciona todos os elementos após o removido, para que a última posição esteja com valores duplicados
-    for (int i = index; i < array->size - 1; i++) {    
-        array->vector[index] = array->vector[index + 1];
+    for (int i = index + 1; i < array->size; i++) {    
+        array->vector[i - 1] = array->vector[i];
     }
 
     array->vector[-1] = (int) NULL;    // remove o elemento duplicado
