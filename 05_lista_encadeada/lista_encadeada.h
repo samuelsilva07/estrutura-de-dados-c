@@ -3,17 +3,17 @@
 
 // biblioteca com as funções para a manutenção de listas encadeadas simples
 
-typedef struct lista LISTA;
+typedef struct _linked_list LinkedList;
 
-void listaLibera(LISTA* lista);
-void listaImprimeCiclo(LISTA* lista);
-int listaVerificaCiclo(LISTA* lista);
-LISTA* listaCriarCiclo(LISTA* lista);
-int listaPesquisa(LISTA* lista, int num);
-LISTA* listaRemove(LISTA* lista, int num);
-void listaImprime(LISTA* lista);
-LISTA* listaInsereOrdenado(LISTA* lista, int num);
-LISTA* listaInsere(LISTA* lista, int num);
-LISTA* listaCria();
+void freeLinkedList(LinkedList* list);
+void showCycleList(LinkedList* list);
+int checkCycle(LinkedList* list);
+LinkedList* addCycle(LinkedList* list);
+int checkValue(LinkedList* list, int value);
+LinkedList* delete(LinkedList* list, int value);
+void showLinkedList(LinkedList* list);
+LinkedList* addInOrder(LinkedList* list, int value);
+LinkedList* add(LinkedList* list, int value);
+LinkedList* newLinkedList();
 
 #endif

@@ -2,125 +2,125 @@
 #include <stdlib.h>
 #include "lista_encadeada.h"
 
-typedef struct lista {
-    int valor;          // Valor armazenado pelo elemento
-    struct lista* prox; // Ponteiro para o próximo elemento
+typedef struct _linked_list {
+    int value;          // Valor armazenado pelo elemento
+    struct _linked_list* next; // Ponteiro para o próximo elemento
 };
 
-void listaLibera(LISTA* lista) {  // Libera a memória utilizada para alocar a lista encadeada
-    LISTA* aux = lista;     // inicia no ponteiro da lista
-    while (aux != NULL) {   
-        LISTA* temp = aux->prox;    // passagem de elemento
-        free(aux);  
-        aux = temp;   // esta ação faz com que a verificação de while seja feita no elemento atual                
+void freeLinkedList(LinkedList* list) {  // Libera a memória utilizada para alocar a lista encadeada
+    LinkedList* node = list;     // inicia no ponteiro da lista
+    while (node != NULL) {   
+        LinkedList* temp_node = node->next;    // passagem de elemento
+        free(node);  
+        node = temp_node;   // esta ação faz com que a verificação de while seja feita no elemento atual                
     }
     // função chega ao fim quando chega ao último elemento (NULL)
 }
 
-void listaImprimeCiclo(LISTA* lista) {   // Imprime uma lista encadeada com ciclos
-    LISTA* p = lista;
+void showCycleList(LinkedList* list) {   // Imprime uma lista encadeada com ciclos
+    LinkedList* node = list;
     printf("[");
-    if (p) do { // do-while tsta APÓS O LOOP!! 
-        printf("%d, ", p->valor);
-        p = p->prox;
-    } while (p != lista); // loop termina quando retornar ao elemento inicial
+    if (node != NULL) do { // do-while tsta APÓS O LOOP!! 
+        printf("%d, ", node->value);
+        node = node->next;
+    } while (node != list); // loop termina quando retornar ao elemento inicial
     printf("\b\b]\n");
 
 }
 
-int listaVerificaCiclo(LISTA* lista) {  // Verifica se a lista encadeada é um ciclo ou não 
-    LISTA* ant = lista;             // variável com o elemento inicial
-    LISTA* aux = lista->prox;       // variável com o elemento seguinte
+int checkCycle(LinkedList* list) {  // Verifica se a lista encadeada é um ciclo ou não 
+    LinkedList* previous_node = list;             // variável com o elemento inicial
+    LinkedList* node = list->next;       // variável com o elemento seguinte
     do {
-        ant = ant->prox;            // avança um elemento 
-        aux = aux->prox->prox;      // avança dois elementos
+        previous_node = previous_node->next;            // avança um elemento 
+        node = node->next->next;      // avança dois elementos
         
-        if (aux == ant) return 1;   // verifica se eles são iguais
-    } while(aux != NULL);           // se esta variável for nula, significa que o ciclo não existe
+        if (node == previous_node) return 1;   // verifica se eles são iguais
+    } while(node != NULL);           // se esta variável for nula, significa que o ciclo não existe
     
     return 0;                       // retorna 0 (falso)
 }
 
-LISTA* listaCriarCiclo(LISTA* lista) {     // Forma um ciclo na lista encadeada
-    LISTA* p = lista; 
+LinkedList* addCycle(LinkedList* list) {     // Forma um ciclo na lista encadeada
+    LinkedList* node = list; 
     // passa os elementos até que o próximo seja vazio
-    while (p->prox != NULL) p = p->prox;
-    p->prox = lista; // campo prox do ultimo elemento aponta para o início da lista
-    return lista;
+    while (node->next != NULL) node = node->next;
+    node->next = list; // campo next do ultimo elemento aponta para o início da lista
+    return list;
 }
 
-int listaPesquisa(LISTA* lista, int num) {   // Realiza uma busca linear na lista encadeada por um elemento n e retorna 1 caso o elemento seja encontrado
-    for (LISTA* p = lista; p != NULL; p = p->prox)
-        if (p->valor == num) return 1;
+int checkValue(LinkedList* lista, int value) {   // Realiza uma busca linear na lista encadeada por um elemento n e retorna 1 caso o elemento seja encontrado
+    for (LinkedList* node = lista; node != NULL; node = node->next)
+        if (node->value == value) return 1;
     return 0;
 }
 
-LISTA* listaRemove(LISTA* lista, int n) { // Remove um elemento de valor n da lista encadeada
-    LISTA* anterior = NULL; // variável para o elemento anterior (inicia com NULL)
-    LISTA* removido = lista; // variável para o elemento atual (inicia com o 1º da lista)
+LinkedList* delete(LinkedList* list, int n) { // Remove um elemento de valor n da lista encadeada
+    LinkedList* previous_node = NULL; // variável para o elemento previous_nodeerior (inicia com NULL)
+    LinkedList* deleted_node = list; // variável para o elemento atual (inicia com o 1º da lista)
 
-    while(removido != NULL && removido->valor != n) {
-        ant = removido;
-        removido = removido->prox;
+    while(deleted_node != NULL && deleted_node->value != n) {
+        previous_node = deleted_node;
+        deleted_node = deleted_node->next;
     }
 
     // se o elemento não for encontrado, retorna a lista original
-    if (removido == NULL) return lista;
+    if (deleted_node == NULL) return list;
 
-    // se o elemento estiver no início da lista (anterior == NULL):
-    if (anterior == NULL) lista = removido->prox;
+    // se o elemento estiver no início da lista (previous_nodeerior == NULL):
+    if (previous_node == NULL) list = deleted_node->next;
 
     // se o elemento estiver no meio da lista:
-    else anterior->prox = removido->prox;
+    else previous_node->next = deleted_node->next;
     
     // remove o elemento e retorna a lista modificada
-    free(removido);
-    return lista;
+    free(deleted_node);
+    return list;
 } 
 
-void listaImprime(LISTA* lista) { // Imprime a lista encadeada
+void showLinkedList(LinkedList* list) { // Imprime a lista encadeada
     printf("[");
-    for (LISTA* e = lista; e != NULL; e = e->prox)
-        printf("%d, ", e->valor);
+    for (LinkedList* e = list; e != NULL; e = e->next)
+        printf("%d, ", e->value);
     printf("\b\b]\n");
 }
 
-LISTA* listaInsereOrdenado(LISTA* lista, int n) {     // Insere um elemento na lista encadeada, mas de forma ordenada
-    LISTA* ant = NULL;
-    LISTA* aux = lista;
-    while (aux != NULL && aux->valor < n) {  // este loop encontra a posição do novo elemento, baseando-se na comparação dos valores
-        ant = aux;
-        aux = aux->prox;
+LinkedList* addInOrder(LinkedList* list, int value) {     // Insere um elemento na lista encadeada, mas de forma ordenada
+    LinkedList* previous_node = NULL;
+    LinkedList* node = list;
+    while (node != NULL && node->value < value) {  // este loop encontra a posição do novo elemento, baseando-se na comparação dos valores
+        previous_node = node;
+        node = node->next;
     } 
 
     // cria novo elemento
-    LISTA* novo = (LISTA*) malloc(sizeof(LISTA));
-    novo->valor = n;
+    LinkedList* new_node = (LinkedList*) malloc(sizeof(LinkedList));
+    new_node->value = value;
     
-    if (ant == NULL) {
-        novo->prox = lista;   // vetor no prox do elemento
-        lista = novo;         // novo elemento se torna o início da lista
+    if (previous_node == NULL) {
+        new_node->next = list;   // vetor no next do elemento
+        list = new_node;         // novo elemento se torna o início da lista
     }
     else {
-        novo->prox = ant->prox;
-        ant->prox = novo;
+        new_node->next = previous_node->next;
+        previous_node->next = new_node;
     }
-    return lista;
+    return list;
 }
 
-LISTA* listaInsere(LISTA* lista, int n) {     // Insere um elemento na lista encadeada
-    LISTA* novo_elemento = (LISTA*) malloc(sizeof(LISTA)); // aloca espaço para o novo elemento (struct)
-    if (novo_elemento == NULL) { // fazer com todos!
+LinkedList* add(LinkedList* list, int value) {     // Insere um elemento na lista encadeada
+    LinkedList* new_node = (LinkedList*) malloc(sizeof(LinkedList)); // aloca espaço para o novo elemento (struct)
+    if (new_node == NULL) { // fazer com todos!
         printf("Nao foi possivel alocar memoria para o elemento.\n");
-        return lista;
+        return list;
     }
 
-    novo_elemento->valor = n;
-    novo_elemento->prox = lista; // endereço do vetor anterior para nova->prox
+    new_node->value = value;
+    new_node->next = list; // endereço do vetor previous_nodeerior para nova->next
     
-    return novo_elemento;  // retorna a lista com o novo elemento adicionado
+    return new_node;  // retorna a lista com o novo elemento adicionado
 }
 
-LISTA* listaCria () {   // Cria uma lista encadeada vazia
+LinkedList* newLinkedList() {   // Cria uma lista encadeada vazia
     return NULL;
 }

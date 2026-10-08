@@ -3,33 +3,36 @@
 #include "lista_encadeada.c"
 
 int main () {
-    LISTA* lista_ciclo = listaCria();
+    LinkedList* lista_ciclo = newLinkedList();
     int num;
     for (int i = 0; i < 5; i++) {
         printf("Digite um numero para adicionar a lista: ");
         scanf("%d", &num);
-        lista_ciclo = listaInsere(lista_ciclo, num);
+        lista_ciclo = add(lista_ciclo, num);
     }
 
     // Lista sem ciclo
 
-    if (listaVerificaCiclo(lista_ciclo)) {
+    if (checkCycle(lista_ciclo)) {
         printf("Lista ciclo: ");
-        listaImprimeCiclo(lista_ciclo); 
+        showCycleList(lista_ciclo); 
     } else {
         printf("Lista encadeada: ");
-        listaImprime(lista_ciclo);
+        showLinkedList(lista_ciclo);
     }
 
     // lista com ciclo
     
-    lista_ciclo = listaCriarCiclo(lista_ciclo);
-    if (listaVerificaCiclo(lista_ciclo)) {
+    lista_ciclo = addCycle(lista_ciclo);
+    
+    if (checkCycle(lista_ciclo)) {
         printf("Lista ciclo: ");
-        listaImprimeCiclo(lista_ciclo); 
+        showCycleList(lista_ciclo); 
     } else {
         printf("Lista encadeada: ");
-        listaImprime(lista_ciclo);
+        showLinkedList(lista_ciclo);
     }
+
+    freeLinkedList(lista_ciclo);
     exit(EXIT_SUCCESS);
 }
