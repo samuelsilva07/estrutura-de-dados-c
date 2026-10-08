@@ -14,7 +14,7 @@ void bolha(int* vet, int i) { // função que troca a posição de um elemento c
     vet[i + 1] = temp;
 }
 
-void bubbleSort(int tam, int* vet) {
+void bubble(int tam, int* vet) {
     int fim = tam - 1, OK = 0;
     do {
         OK = 0; // indica se houve troca no vetor
@@ -29,7 +29,7 @@ void bubbleSort(int tam, int* vet) {
     } while (OK); // loop se encerra quando nenhuma troca for realizada
 }
 
-void bubbleSortRecursivo(int tam, int* vet) {
+void bubbleRecursivo(int tam, int* vet) {
     int fim = tam - 1, houve_troca = 0; 
     for (int i = 0; i < fim; i++) {
         if (vet[i] > vet[i + 1]) {
@@ -39,10 +39,10 @@ void bubbleSortRecursivo(int tam, int* vet) {
     }
     // se uma troca foi realizada, a função é chamada novamente
     // tamanho do vetor REDUZIDO (sem os elementos ordenados)
-    if (houve_troca) bubbleSortRecursivo(tam - 1, vet); 
+    if (houve_troca) bubbleRecursivo(tam - 1, vet); 
 }
 
-void insertionSort(int tam, int* vet) {
+void insertion(int tam, int* vet) {
     for (int i = 1; i < tam; i++) { // loop vai "aumentando" o tamanho do vetor a ser tratado
         int j = i;  // j recebe o valor do fim do "sub-vetor"
         while (j > 0 && vet[j - 1] > vet[j]) {
@@ -52,7 +52,7 @@ void insertionSort(int tam, int* vet) {
     }
 }
 
-void selectionSort(int tam, int* vet) {
+void selection(int tam, int* vet) {
     int menor; 
     for (int i = 0; i < tam; i++) {
         menor = i; 
@@ -114,11 +114,11 @@ void intercala(int inicio, int meio, int fim, int *vet) {
     free(vetTemp); // libera a memória utilizada na alocação
 }
 
-void mergeSort(int inicio, int tam, int* vet) {
+void merge(int inicio, int tam, int* vet) {
      if (inicio < tam - 1) {
         int meio = (int) (inicio + tam) / 2;
-        mergeSort(inicio, meio, vet); // primeira metade
-        mergeSort(meio, tam, vet);    // seguinda metade
+        merge(inicio, meio, vet); // primeira metade
+        merge(meio, tam, vet);    // seguinda metade
         intercala(inicio, meio, tam, vet);  // "mescla" os vetores
      }
 }
