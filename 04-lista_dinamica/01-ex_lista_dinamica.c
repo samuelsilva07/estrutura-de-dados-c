@@ -2,25 +2,25 @@
 #include "array.c"
 
 int main() {
-    ARRAY* lista_dinamica = arrayCria();
+    ARRAY* array = newArray();
     
-    arrayAdiciona(lista_dinamica, 2);
-    arrayImprime(lista_dinamica);
-    arrayAdiciona(lista_dinamica, 5);
-    arrayImprime(lista_dinamica);
-    arrayAdiciona(lista_dinamica, 3);
-    arrayImprime(lista_dinamica);
-    arrayAdiciona(lista_dinamica, 9);
-    arrayImprime(lista_dinamica);
-    arrayAdiciona(lista_dinamica, 8);
+    append(array, 2);
+    showArray(array);
+    append(array, 5);
+    showArray(array);
+    append(array, 3);
+    showArray(array);
+    append(array, 9);
+    showArray(array);
+    append(array, 8);
 
-    arrayImprime(lista_dinamica);
-    int indice_elemento = arrayPesquisa(lista_dinamica, 9);
+    showArray(array);
+    int indice_elemento = get(array, 9);
     printf("Indice do elemento 9: %d\n", indice_elemento);
 
-    int elemento_removido = arrayRemove(lista_dinamica, 2);
+    int elemento_removido = del(array, 2);
     printf("\nElemento %d removido!\n", elemento_removido);
 
-    arrayLibera(lista_dinamica);
+    freeArray(array);
     return 0;
 }

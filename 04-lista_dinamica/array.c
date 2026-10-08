@@ -2,75 +2,73 @@
 #include <stdlib.h>
 #include "array.h"
 
-struct array {
-    int tamanho;    // tamanho total do array
-    int qtd;        // quantidade de elementos armazenados no array
-    int* vetor;     // vetor de elementos do array
+struct _array {
+    int total_size;    // tamanho total do array
+    int size;        // quantidade de elementos armazenados no array
+    int* vector;     // vetor de elementos do array
 };
 
-void arrayLibera(ARRAY* lista) {
-    free(lista->vetor);
-    free(lista);
-    printf("Memoria liberada!\n");
+void freeArray(ARRAY* array) {
+    free(array->vector);
+    free(array);
 }
 
-int arrayPesquisa(ARRAY* lista, int elemento) { // retorna o índice do elemento procurado
-    for (int i = 0; i < lista->qtd; i++) 
-        if (lista->vetor[i] == elemento) return i;
+int get(ARRAY* array, int value) { // retorna o índice do elemento procurado
+    for (int i = 0; i < array->size; i++) 
+        if (array->vector[i] == value) return i;
     return -1;
 }
 
-void arrayImprime(ARRAY* lista) {
+void showArray(ARRAY* array) {
     printf("[");
-    for (int i = 0; i < lista->qtd; i++) {
-        printf("%d, ", lista->vetor[i]);
+    for (int i = 0; i < array->size; i++) {
+        printf("%d, ", array->vector[i]);
     } 
     printf("\b\b]\n");  // remove a vírgula do último elemento e fecha os colchetes
 }
 
-int arrayRemove(ARRAY* lista, int posicao) { // remove o elemento do vetor e retorna o seu valor
-    if (lista->tamanho < 1) {
+int del(ARRAY* array, int index) { // remove o elemento do vetor e retorna o seu valor
+    if (array->total_size < 1) {
         printf("O array já está vazio!");
-        return (int) NULL;
+        return -1;
     }
-    int removido = lista->vetor[posicao]; // pega o elemento removido
+    int deleted = array->vector[index]; // pega o elemento removido
 
     // reposiciona todos os elementos após o removido, para que a última posição esteja com valores duplicados
-    for (int i = posicao; i < lista->qtd - 1; i++) {    
-        lista->vetor[posicao] = lista->vetor[posicao + 1];
+    for (int i = index; i < array->size - 1; i++) {    
+        array->vector[index] = array->vector[index + 1];
     }
 
-    lista->vetor[-1] = (int) NULL;    // remove o elemento duplicado
-    lista->qtd--;               // diminui a quantidade de elementos no vetor
-    return removido;            // retorna o elemento removido
+    array->vector[-1] = (int) NULL;    // remove o elemento duplicado
+    array->size--;               // diminui a quantidade de elementos no vetor
+    return deleted;            // retorna o elemento removido
 }
 
-void arrayAdiciona(ARRAY* lista, int valor) {  // adiciona um elemento no final do vetor
-    if (lista->qtd == lista->tamanho) {  // verifica se o array está cheio
-        lista->tamanho *= 2;    // tamanho do vetor é dobrado
-        lista->vetor = (int*) realloc(lista->vetor, lista->tamanho * sizeof(int));  // realloc para redimensionar o vetor
+void append(ARRAY* array, int value) {  // adiciona um elemento no final do vetor
+    if (array->size == array->total_size) {  // verifica se o array está cheio
+        array->total_size *= 2;    // tamanho do vetor é dobrado
+        array->vector = (int*) realloc(array->vector, array->total_size * sizeof(int));  // realloc para redimensionar o vetor
     }
-    int posicao = lista->qtd;
-    lista->vetor[posicao] = valor;  // elemento é adicionado na posição correta
-    lista->qtd++;
+    int index = array->size;
+    array->vector[index] = value;  // elemento é adicionado na posição correta
+    array->size++;
 }
 
-ARRAY* arrayCria() {  // retorna um ponteiro para o array inicial
-    ARRAY* lista = (ARRAY*) malloc(sizeof(ARRAY));
-    if (lista == NULL) {
+ARRAY* newArray() {  // retorna um ponteiro para o array inicial
+    ARRAY* array = (ARRAY*) malloc(sizeof(ARRAY));
+    if (array == NULL) {
        printf("Nao foi possivel alocar memoria para o array.\n");
        return NULL; 
     }
 
-    lista->tamanho = 1; // vetor inicia com tamanho 1 - já que é inicializado com o tamanho de int
-    lista->qtd = 0;
-    lista->vetor = (int*) malloc(sizeof(int));
+    array->total_size = 1; // vetor inicia com tamanho 1 - já que é inicializado com o tamanho de int
+    array->size = 0;
+    array->vector = (int*) malloc(sizeof(int));
 
-    if (lista->vetor == NULL) {
+    if (array->vector == NULL) {
         printf("Nao foi possivel alocar memoria para o vetor.\n");
         return NULL; 
     }
 
-    printf("Memoria alocada com sucesso!\n");
-    return lista;
+    return array;
 }
