@@ -1,17 +1,17 @@
-#ifndef LISTA_ENCADEADA_H
-#define LISTA_ENCADEADA_H
+#ifndef DEQUE_H
+#define DEQUE_H
 
-typedef struct deque DEQUE;
+typedef struct deque Deque;
 
-void dequeLibera(DEQUE* lista);
-DEQUE* dequePesquisa(DEQUE* lista, int num);
-DEQUE* dequeFinal(DEQUE* lista);
-int dequeVazio(DEQUE* lista);
-DEQUE* dequeRemove(DEQUE* lista, int num);
-void dequeImprimirReverso(DEQUE* lista);
-void dequeImprimir(DEQUE* lista);
-DEQUE* dequeInsereOrdenado(DEQUE* lista, int num);
-DEQUE* dequeInsere(DEQUE* lista, int num);
-DEQUE* dequeCria();
+void freeDeque(Deque* list);
+Deque* getLast(Deque* list);
+Deque* get(Deque* list, int value);
+int isEmpty(Deque* list);
+Deque* delete(Deque* list, int value);
+void showReverseDeque(Deque* list);
+void showDeque(Deque* list);
+Deque* addInOrder(Deque* list, int value);
+Deque* add(Deque* list, int value);
+Deque* newDeque();
 
 #endif

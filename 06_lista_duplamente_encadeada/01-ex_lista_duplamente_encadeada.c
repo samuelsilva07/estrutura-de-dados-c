@@ -3,24 +3,33 @@
 #include "deque.c"
 
 int main () {
-    DEQUE* vetor = dequeCria();
+    Deque* vetor = newDeque();
     int num;
     for (int i = 0; i < 5; i++) {
         printf("Digite um numero para inserir na lista: ");
-        scanf("%d", &num);
-        vetor = dequeInsere(vetor, num);
+        if (scanf("%d", &num) != 1) {
+            printf("Entrada invalida.\n");
+            freeDeque(vetor);
+            return EXIT_FAILURE;
+        }
+        vetor = add(vetor, num);
     }
     printf("\nLista duplamente encadeada: ");
-    dequeImprimir(vetor);
+    showDeque(vetor);
 
     printf("\nDigite um valor para remover da lista: ");
-    int valor_removido = scanf("%d", &valor_removido);
-    vetor = dequeRemove(vetor, valor_removido);  
+    int valor_removido;
+    if (scanf("%d", &valor_removido) != 1) {
+        printf("Entrada invalida.\n");
+        freeDeque(vetor);
+        return EXIT_FAILURE;
+    }
+    vetor = delete(vetor, valor_removido);  
     
     printf("\nLista apos remocao: ");
-    dequeImprimir(vetor);
+    showDeque(vetor);
     
-    dequeLibera(vetor);
+    freeDeque(vetor);
     printf("\nMemoria liberada!\n");
     exit(EXIT_SUCCESS);
 }
