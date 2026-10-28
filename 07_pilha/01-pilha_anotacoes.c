@@ -3,35 +3,37 @@
 #include "pilha.c"
 
 int main () {
-    PILHA* p = pilhaCria();
-    int valor_adicionado;
+    Stack* pilha = newStack();
+    int valor;
     printf("Nova pilha criada!\n");
     while(1) {
         printf("\nPilha atual: ");
-        pilhaImprime(p);
+        showStack(pilha);
 
         printf("Insira um elemento na pilha: ");
-        if (scanf("%d", &valor_adicionado) != 1) {
+        if (scanf("%d", &valor) != 1) {
             printf("ERRO: tipo de dado invalido.");
             return 0;
-        } if (valor_adicionado == 0) {
+        } if (valor == 0) {
             break;
         }
 
-        pilhaPush(p, valor_adicionado);
+        push(pilha, valor);
     };
 
     printf("--------------------------------------\nPilha atual: ");
-    pilhaImprime(p);
+    showStack(pilha);
 
     int valor_removido;
-    valor_removido = pilhaPop(p);
+    valor_removido = pop(pilha);
     printf("\nValor removido = %d\n", valor_removido);
     
     printf("\nPilha final: ");
-    pilhaImprime(p);
+    showStack(pilha);
+    printf("Topo da pilha: ");
+    showFirst(pilha);
     
-    pilhaLibera(p);
+    freeStack(pilha);
     printf("Pilha liberada!\n");
     exit(EXIT_SUCCESS);
 }

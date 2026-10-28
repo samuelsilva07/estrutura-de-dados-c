@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pilha.c"
+#include "stack.c"
 
 /* 
     Nesse programa, a pilha foi implementada para verificar se uma espressão numérica possui todos os símbolos utilizados corretamente.
@@ -23,18 +23,18 @@ int verificaSinal(char c) {
 }
 
 int verificaExpressao(char* exp) {
-    PILHA* pilha = pilhaCria();
+    Stack* pilha = newStack();
     for (int i = 0; exp[i] != '\0'; i++) {
-        if (verificaSinal(exp[i]) == 1) pilhaPush(pilha, exp[i]);
+        if (verificaSinal(exp[i]) == 1) push(pilha, exp[i]);
         if (verificaSinal(exp[i]) == -1) {
-            if (pilha->topo == NULL || pilhaPop(pilha) != fecho(exp[i])){
-                pilhaLibera(pilha);
+            if (isEmpty(pilha) || pop(pilha) != fecho(exp[i])){
+                freeStack(pilha);
                 return 0;
             }
         }
     }
-    if (pilha->topo != NULL) return 0;
-    pilhaLibera(pilha);
+    if (!isEmpty(pilha)) return 0;
+    freeStack(pilha);
     return 1;
 }
 
