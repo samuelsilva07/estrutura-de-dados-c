@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista_encadeada.c"
+#include "linked_list.c"
 
 int main () {
     LinkedList* lista_ciclo = newLinkedList();

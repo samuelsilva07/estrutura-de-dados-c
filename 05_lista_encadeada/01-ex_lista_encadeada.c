@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include "lista_encadeada.c"
+#include <stdlib.h>
+#include "linked_list.c"
 
 int main () {
     LinkedList* lista_encadeada = newLinkedList();
     int num;
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         printf("Digite um numero para adicionar a lista: ");
         scanf("%d", &num);
         // lista_encadeada = add(lista_encadeada, num);

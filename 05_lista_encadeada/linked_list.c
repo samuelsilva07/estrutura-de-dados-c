@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista_encadeada.h"
+#include "linked_list.h"
 
-typedef struct _linked_list {
+struct _linked_list {
     int value;          // Valor armazenado pelo elemento
     struct _linked_list* next; // Ponteiro para o próximo elemento
 };
 
-void freeLinkedList(LinkedList* list) {  // Libera a memória utilizada para alocar a lista encadeada
-    LinkedList* node = list;     // inicia no ponteiro da lista
-    while (node != NULL) {   
-        LinkedList* temp_node = node->next;    // passagem de elemento
-        free(node);  
-        node = temp_node;   // esta ação faz com que a verificação de while seja feita no elemento atual                
-    }
-    // função chega ao fim quando chega ao último elemento (NULL)
+LinkedList* breakCycle(LinkedList* list) {
+    if (list == NULL) return NULL;
+
+    LinkedList* node = list;
+    do {
+        node = node->next;
+    } while (node->next != list);
+
+    node->next = NULL;
+    return list;
 }
 
 void showCycleList(LinkedList* list) {   // Imprime uma lista encadeada com ciclos
@@ -25,20 +27,28 @@ void showCycleList(LinkedList* list) {   // Imprime uma lista encadeada com cicl
         node = node->next;
     } while (node != list); // loop termina quando retornar ao elemento inicial
     printf("\b\b]\n");
-
 }
 
 int checkCycle(LinkedList* list) {  // Verifica se a lista encadeada é um ciclo ou não 
-    LinkedList* previous_node = list;             // variável com o elemento inicial
-    LinkedList* node = list->next;       // variável com o elemento seguinte
-    do {
-        previous_node = previous_node->next;            // avança um elemento 
-        node = node->next->next;      // avança dois elementos
-        
-        if (node == previous_node) return 1;   // verifica se eles são iguais
-    } while(node != NULL);           // se esta variável for nula, significa que o ciclo não existe
+    if (list == NULL) return 0;
     
-    return 0;                       // retorna 0 (falso)
+    LinkedList* previous_node = list;       // variável com o elemento inicial
+    LinkedList* node = list->next;          // variável com o elemento seguinte
+    if (node == NULL) return 0;
+
+    do {
+        previous_node = previous_node->next;    // avança um elemento 
+        node = node->next->next;                // avança dois elementos
+        
+        // se os ponteiros apontarem para o mesmo local, a lista possui um ciclo
+        if (node == previous_node) return 1;   
+        
+        // se os próximos valores forem NULL, não há ciclo
+        else if (node == NULL || node->next == NULL) return 0; 
+    } while (node != NULL);           
+    
+    // se node for NULL, significa que o ciclo não existe e retorna 0    
+    return 0;
 }
 
 LinkedList* addCycle(LinkedList* list) {     // Forma um ciclo na lista encadeada
@@ -47,6 +57,22 @@ LinkedList* addCycle(LinkedList* list) {     // Forma um ciclo na lista encadead
     while (node->next != NULL) node = node->next;
     node->next = list; // campo next do ultimo elemento aponta para o início da lista
     return list;
+}
+
+void freeLinkedList(LinkedList* list) {  // Libera a memória utilizada para alocar a lista encadeada
+    if (list == NULL) return;
+
+    if (checkCycle(list) == 1) list = breakCycle(list);  // verifica se a lista possui um ciclo e quebra-o
+
+     LinkedList* node = list;        // inicia no ponteiro
+    LinkedList* temp_node;
+    
+    while (node != NULL) {   
+        temp_node = node->next;    // passagem de elemento
+        free(node);  
+        node = temp_node;   // esta ação faz com que a verificação de while seja feita no elemento atual                
+    }
+    // função chega ao fim quando chega ao último elemento (NULL)
 }
 
 int checkValue(LinkedList* lista, int value) {   // Realiza uma busca linear na lista encadeada por um elemento n e retorna 1 caso o elemento seja encontrado

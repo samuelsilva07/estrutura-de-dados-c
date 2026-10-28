@@ -5,10 +5,11 @@
 
 typedef struct _linked_list LinkedList;
 
-void freeLinkedList(LinkedList* list);
+LinkedList* breakCycle(LinkedList* list);
 void showCycleList(LinkedList* list);
 int checkCycle(LinkedList* list);
 LinkedList* addCycle(LinkedList* list);
+void freeLinkedList(LinkedList* list);
 int checkValue(LinkedList* list, int value);
 LinkedList* delete(LinkedList* list, int value);
 void showLinkedList(LinkedList* list);
