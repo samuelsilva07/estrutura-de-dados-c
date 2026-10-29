@@ -1,20 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "fila.c"
+#include "queue.c"
 #define TRUE 1
 #define MAX 40
 
-void menu(FILA* fila) {
+void menu(Queue* fila) {
     system("cls");
     printf("\nFila atual: ");
-    filaImprime(fila);
+    showQueue(fila);
     printf("\nI - Inserir cliente na fila\nA - Atender cliente da fila\nS - Sair\n");
     printf("Digite as operacoes que serao realizadas (MAX = %d): ", MAX);
 }
 
 int main () {
-    FILA* fila = filaCria();
+    Queue* fila = newQueue();
     int senha = 1, OK = 1;
     char operacao[MAX + 1];
     do {
@@ -27,16 +27,16 @@ int main () {
                 OK = 0;
                 break;
             } else if (operacao[i] == 'I' || operacao[i] == 'i') {
-                filaInsere(fila, senha);
+                enqueue(fila, senha);
                 inseridos++;
                 senha++;
             } else if (operacao[i] == 'A' || operacao[i] == 'a') {
-                if (filaVazia(fila)){
+                if (isEmpty(fila)){
                     printf("A fila esta vazia.\n");
                     sleep(2);
                 }
                 else {
-                    filaRemove(fila);
+                    dequeue(fila);
                     atendidos++;
                 }
             } else {
@@ -54,7 +54,7 @@ int main () {
             sleep(2);
         }
     } while(OK);
-    filaLibera(fila);
+    freeQueue(fila);
     printf("Fim do programa.\n");
     exit(EXIT_FAILURE);
 }
