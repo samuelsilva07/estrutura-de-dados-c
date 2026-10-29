@@ -22,7 +22,6 @@ void freeQueue(Fila* fila) {
         free(atual);
         atual = aux;
     }
-    printf("\nMemoria liberada!");
 }
 
 int isEmpty(Fila* fila) {
@@ -30,7 +29,7 @@ int isEmpty(Fila* fila) {
 }
 
 void printCliente(Cliente* cliente) {
-    printf("Nome: %s\nServico: %s\n", cliente->nome, cliente->servico);
+    printf("Nome: %s\nServico: %s\n\n", cliente->nome, cliente->servico);
 }
 
 void printQueue(Fila* fila) {
@@ -45,7 +44,7 @@ void printQueue(Fila* fila) {
         printCliente(cliente);
         i++;
     }
-    sleep(5);
+    sleep(3);
 }
 
 void dequeue(Fila* fila) {
